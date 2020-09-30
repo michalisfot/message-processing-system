@@ -10,6 +10,10 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    OldSound\RabbitMqBundle\RabbitMq\Producer: '@old_sound_rabbit_mq.publish_producer'
+    OldSound\RabbitMqBundle\RabbitMq\Consumer: '@old_sound_rabbit_mq.consume_consumer'
+    message_service:
+            class: App\Rabbit\MessageService
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
