@@ -16,6 +16,7 @@ or use docker-compose (run from the docker folder):
 ```
 docker-compose build
 docker-compose up -d
+docker-compose run php composer install
 ```
 Run the following comand to publish 1 message to the exchange:<br/>
 `docker-compose run php bin/console publish-message 1`<br/>
