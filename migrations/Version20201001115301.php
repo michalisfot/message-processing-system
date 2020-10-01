@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200930103804 extends AbstractMigration
+final class Version20201001115301 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,12 +20,12 @@ final class Version20200930103804 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE metric CHANGE gateway_eui gateway_eui VARCHAR(255) NOT NULL, CHANGE timestamp timestamp VARCHAR(255) NOT NULL');
+        $this->addSql('CREATE TABLE metric (id INT AUTO_INCREMENT NOT NULL, gateway_eui VARCHAR(255) NOT NULL, attribute_id INT NOT NULL, value INT NOT NULL, timestamp BIGINT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
     }
 
     public function down(Schema $schema) : void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE metric CHANGE gateway_eui gateway_eui BIGINT NOT NULL, CHANGE timestamp timestamp BIGINT NOT NULL');
+        $this->addSql('DROP TABLE metric');
     }
 }

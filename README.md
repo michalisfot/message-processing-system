@@ -46,9 +46,8 @@ Our database only has one table named **metric**. The structure is presented bel
 | --- | --- | --- |
 | id | int(11) | Unique ID for every entry. This is our primary key. |
 | gateway_eui | varchar(255) | The gateway_eui value we got from consuming the API. Because of its big size, it is stored in the database as a string. |
-| profile_id | int(11) | The profile_id value we got from consuming the API. |
-| endpoint_id | int(11) | The endpoint_id value we got from consuming the API. |
-| cluster_id | int(11) | The cluster_id value we got from consuming the API. |
 | attribute_id | int(11) | The attribute_id value we got from consuming the API. |
 | value | int(11) | The value field we got from consuming the API. |
 | timestamp | bigint(20) | The timestamp value we got from consuming the API. It is stored as a bigint in order be more easy to sort entries by this collumn. |
+
+The values for **profile_id**, **endpoint_id** and **cluster_id** are the same for every entry and thus there is no point in storing them in the database.

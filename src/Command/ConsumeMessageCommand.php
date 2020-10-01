@@ -15,11 +15,11 @@ class ConsumeMessageCommand extends Command
 {
     protected static $defaultName = 'consume-message';
 
-    private $publishController;
+    private $messageController;
 
-    public function __construct(MessageController $publishController)
+    public function __construct(MessageController $messageController)
     {
-        $this->publishController = $publishController;
+        $this->messageController = $messageController;
 
         parent::__construct();
     }
@@ -27,7 +27,7 @@ class ConsumeMessageCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('This comand ivokes the ConsumeController, consumes messages from the RabbitMQ queue and stores them in the database.')
+            ->setDescription('This comand ivokes the MessageController::consumeFromQueue method, consumes messages from the RabbitMQ queue and stores them in the database.')
             ->addArgument('number_of_messages', InputArgument::OPTIONAL, 'Defines the number of messaages to be consumed from the queue.')
         ;
     }
@@ -41,7 +41,7 @@ class ConsumeMessageCommand extends Command
             $io->note(sprintf('No. of messages to be consumed: %s', $number_of_messages));
         }
 
-        $this->publishController->consumeFromQueue($number_of_messages);
+        $this->messageController->consumeFromQueue($number_of_messages);
 
         $io->success('You have successfully consumed '.$number_of_messages.' message(s).');
 

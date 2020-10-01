@@ -15,11 +15,11 @@ class PublishMessageCommand extends Command
 {
     protected static $defaultName = 'publish-message';
 
-    private $publishController;
+    private $messageController;
 
-    public function __construct(MessageController $publishController)
+    public function __construct(MessageController $messageController)
     {
-        $this->publishController = $publishController;
+        $this->messageController = $messageController;
 
         parent::__construct();
     }
@@ -27,7 +27,7 @@ class PublishMessageCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('This comand ivokes the MessageController, makes requests to an external API and publishes the message(s) to the RabbitMQ exchange.')
+            ->setDescription('This comand ivokes the MessageController::publishToExchange method, makes requests to an external API and publishes the message(s) to the RabbitMQ exchange.')
             ->addArgument('number_of_messages', InputArgument::REQUIRED, 'Defines the number of requests to be made to the API and messages to be posted to the exchange.')
         ;
     }
@@ -41,7 +41,7 @@ class PublishMessageCommand extends Command
             $io->note(sprintf('No. of requests made: %s', $number_of_messages));
         }
 
-        $this->publishController->publishToExchange($number_of_messages);
+        $this->messageController->publishToExchange($number_of_messages);
 
         $io->success('You have successfully published '.$number_of_messages.' message(s).');
 

@@ -47,31 +47,39 @@ class MessageController extends AbstractController
             );
         }
 
+        $published = 0;
         // Loop over the responses
         foreach ($responses as $response) {
-            $content = json_decode($response->getContent());
-            // $content = '{"gatewayEui":84df0c002d901dfd, "profileId":"0x0104", ...}'        
-
-            // Convert the hexadecimal values to their decimal equivalents
-            $gatewayEui = $this->hexconverter->Hex2Dec($content->{'gatewayEui'});
-            $profileId = hexdec($content->{'profileId'});
-            $endpointId = hexdec($content->{'endpointId'});
-            $clusterId = hexdec($content->{'clusterId'});
-            $attributeId = hexdec($content->{'attributeId'});
+            // Get the status code
+            $statusCode = $response->getStatusCode();
             
-            // Create the routing key
-            $routing_key = $gatewayEui.'.'.$profileId.'.'.$endpointId.'.'.$clusterId.'.'.$attributeId;
-            
-            // Structure our message in JSON format
-            $msg = json_encode(array('value' => $content->{'value'}, 'timestamp' => $content->{'timestamp'}));
+            // Check whether thee status code is equal to 200-->OK
+            if ($statusCode == 200) {
+                $content = json_decode($response->getContent());
+                // $content = '{"gatewayEui":84df0c002d901dfd, "profileId":"0x0104", ...}'        
 
-            // Set the message content type
-            $this->publisher->setContentType('application/json');
-            // Publish the message
-            $this->publisher->publish($msg, $routing_key);
+                // Convert the hexadecimal values to their decimal equivalents
+                $gatewayEui = $this->hexconverter->Hex2Dec($content->{'gatewayEui'});
+                $profileId = hexdec($content->{'profileId'});
+                $endpointId = hexdec($content->{'endpointId'});
+                $clusterId = hexdec($content->{'clusterId'});
+                $attributeId = hexdec($content->{'attributeId'});
+                
+                // Create the routing key
+                $routing_key = $gatewayEui.'.'.$profileId.'.'.$endpointId.'.'.$clusterId.'.'.$attributeId;
+                
+                // Structure our message in JSON format
+                $msg = json_encode(array('value' => $content->{'value'}, 'timestamp' => $content->{'timestamp'}));
+
+                // Set the message content type
+                $this->publisher->setContentType('application/json');
+                // Publish the message
+                $this->publisher->publish($msg, $routing_key);
+                $published =+ 1;
+            }
         }
 
-        $response = $num.' requests to the API were made and published to the RabidMQ exchange.';
+        $response = $num.' requests to the API were made and '.$published.' messages were published to the RabidMQ exchange.';
 
         return new Response($response);
     }

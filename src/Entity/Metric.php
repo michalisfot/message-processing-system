@@ -25,21 +25,6 @@ class Metric
     /**
      * @ORM\Column(type="integer")
      */
-    private $profileId;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $endpointId;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $clusterId;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
     private $attributeId;
 
     /**
@@ -89,42 +74,6 @@ class Metric
     public function setGatewayEui(string $gatewayEui): self
     {
         $this->gatewayEui = $gatewayEui;
-
-        return $this;
-    }
-
-    public function getProfileId(): ?int
-    {
-        return $this->profileId;
-    }
-
-    public function setProfileId(int $profileId): self
-    {
-        $this->profileId = $profileId;
-
-        return $this;
-    }
-
-    public function getEndpointId(): ?int
-    {
-        return $this->endpointId;
-    }
-
-    public function setEndpointId(int $endpointId): self
-    {
-        $this->endpointId = $endpointId;
-
-        return $this;
-    }
-
-    public function getClusterId(): ?int
-    {
-        return $this->clusterId;
-    }
-
-    public function setClusterId(int $clusterId): self
-    {
-        $this->clusterId = $clusterId;
 
         return $this;
     }

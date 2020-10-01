@@ -34,9 +34,6 @@ class MessageService implements ConsumerInterface
         // Create a new instance of the Metric entity and populates its fields
         $metric = new Metric();
         $metric->setGatewayEui($routing_key_arr[0]);
-        $metric->setProfileId($routing_key_arr[1]);
-        $metric->setEndpointId($routing_key_arr[2]);
-        $metric->setClusterId($routing_key_arr[3]);
         $metric->setAttributeId($routing_key_arr[4]);
         $metric->setValue($response['value']);
         $metric->setTimestamp($response['timestamp']);
