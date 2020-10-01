@@ -6,10 +6,10 @@ A micro-service developed in Symfony 4 that consumes data from an external API, 
 composer install
 symfony server:start
 ```
-Run the following comand to publish 1 message to the exchange:<br/>
+Run the following command to publish 1 message to the exchange:<br/>
 `php bin/console publish-message 1`<br/>
 
-Run the following comand to consume 1 message from the queue and store it into the database:<br/>
+Run the following command to consume 1 message from the queue and store it into the database:<br/>
 `php bin/console consume-message 1`
 
 or use docker-compose (run from the docker folder):
@@ -18,11 +18,14 @@ docker-compose build
 docker-compose up -d
 docker-compose run php composer install
 ```
-Run the following comand to publish 1 message to the exchange:<br/>
+Run the following command to publish 1 message to the exchange:<br/>
 `docker-compose run php bin/console publish-message 1`<br/>
 
-Run the following comand to consume 1 message from the queue and store it into the database:<br/>
+Run the following command to consume 1 message from the queue and store it into the database:<br/>
 `docker-compose run php bin/console consume-message 1`
+
+Run the following command to start consuming messages from the queue and store them into the database, until you stop the service:<br/>
+`docker-compose run php bin/console rabbitmq:consumer consume`
 
 Stop the containers:</br>
 `docker-compose down`
@@ -37,7 +40,7 @@ Stop the containers:</br>
 - **publishToExchange(int $num)**: Makes requests to an external API, processes the response and publishes a message to a RabbitMQ exchange with a valid routing key. It takes one argument that defines the number of requests and therefore messages to publish to the RabbitMQ exchange.
 - **consumeFromQueue(int $num)**: Consumes messages from a RabbitMQ queue. The callback ivokes the MessageService which processes the message and stores it into the database. It takes one argument that defines the number of messages to consume from the RabbitMQ queue.
 
-<b>MessageService</b>: A service that is ivoked by the callback defined in the RabbitMQ queue. It implements the <b>ConsumerInterface::execute</b> method. This method consumes the message from the queue, processes it and stores it into the database. If the number of messages is bigger that the queue size it will throw a timeout exception after 15 seconds.
+<b>MessageService</b>: A service that is ivoked by the callback defined in the RabbitMQ queue. It implements the <b>ConsumerInterface::execute</b> method. This method consumes the message from the queue, processes it and stores it into the database.
 
 <b>HexConverter</b>: A helper service that converts a big integer in hexadeciman format to its decimal format. This service is required as the default <b>hexdec()</b> PHP function can't handle big integers.
 
