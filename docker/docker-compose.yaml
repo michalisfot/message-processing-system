@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+    # mysql:
+    #   image: mysql:5.5
+    #   restart: on-failure
+    #   environment:
+    #     MYSQL_ROOT_PASSWORD: root #USER: root
+    #     MYSQL_DATABASE: db
+    # phpmyadmin:
+    #   depends_on:
+    #    - mysql
+    #   image: phpmyadmin/phpmyadmin
+    #   restart: always
+    #   ports:
+    #    - 8080
+    #   environment:
+    #     PMA_HOST: mysql
+    php:
+        build: php-fpm
+        ports:
+            - 9000
+        volumes:
+            - ../:/var/www/symfony:cached
+            - ./logs/symfony:/var/www/symfony/var/logs:cached
+        # links:
+        #     - mysql
+    nginx:
+        build: nginx
+        ports:
+            - 80
+        links:
+            - php
+        volumes:
+            - ./logs/nginx/:/var/log/nginx:cached
+    # rabbitmq:
+    #     image: rabbitmq:3-management-alpine
+    #     environment:
+    #       RABBITMQ_DEFAULT_USER: "root"
+    #       RABBITMQ_DEFAULT_PASS: "root"
+    #     ports:
+    #       - 15672
+    #       - 5672

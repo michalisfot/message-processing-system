@@ -1,19 +1,26 @@
 old_sound_rabbit_mq:
     connections:
         default:
-            host: '172.17.0.4'
-            user: 'user'
-            password: 'password'
-            vhost: 'n2g'
+            host: 'candidatemq.n2g-dev.net'
+            user: 'cand_yk06'
+            password: 'lNVRHDMHrAA4yD7R'
+            vhost: '/'
+            
+            # host: rabbitmq
+            # user: 'root'
+            # password: 'root'
+            # vhost: '/'
     producers:
         publish:
             connection: default
+            auto_setup_fabric: false
             exchange_options:
                 name: cand_yk06
                 type: topic
     consumers:
         consume:
             connection:       default
+            auto_setup_fabric: false
             exchange_options: {name: 'cand_yk06', type: topic}
             queue_options:    {name: 'cand_yk06_results'}
             callback:         message_service

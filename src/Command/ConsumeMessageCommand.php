@@ -9,17 +9,17 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use App\Controller\ConsumeController;
+use App\Controller\MessageController;
 
 class ConsumeMessageCommand extends Command
 {
     protected static $defaultName = 'consume-message';
 
-    private $consumeController;
+    private $publishController;
 
-    public function __construct(ConsumeController $consumeController)
+    public function __construct(MessageController $publishController)
     {
-        $this->consumeController = $consumeController;
+        $this->publishController = $publishController;
 
         parent::__construct();
     }
@@ -41,7 +41,7 @@ class ConsumeMessageCommand extends Command
             $io->note(sprintf('No. of messages to be consumed: %s', $number_of_messages));
         }
 
-        $this->consumeController->consumeMessage($number_of_messages);
+        $this->publishController->consumeFromQueue($number_of_messages);
 
         $io->success('You have successfully consumed '.$number_of_messages.' message(s).');
 

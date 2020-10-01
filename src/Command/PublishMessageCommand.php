@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use App\Controller\PublishController;
+use App\Controller\MessageController;
 
 class PublishMessageCommand extends Command
 {
@@ -17,7 +17,7 @@ class PublishMessageCommand extends Command
 
     private $publishController;
 
-    public function __construct(PublishController $publishController)
+    public function __construct(MessageController $publishController)
     {
         $this->publishController = $publishController;
 
@@ -27,7 +27,7 @@ class PublishMessageCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('This comand ivokes the PublishController, makes requests to an external API and publishes the message(s) to the RabbitMQ exchange.')
+            ->setDescription('This comand ivokes the MessageController, makes requests to an external API and publishes the message(s) to the RabbitMQ exchange.')
             ->addArgument('number_of_messages', InputArgument::REQUIRED, 'Defines the number of requests to be made to the API and messages to be posted to the exchange.')
         ;
     }

@@ -16,18 +16,20 @@ class MessageService implements ConsumerInterface
 
     /**
      * Consumes messages from a RabbitMQ queue, processes it and stores it in the database.
+     * If the number of messages exceeds the queue size an exception will be thrown after 15 seconds.
      * 
      */
     public function execute(AMQPMessage $msg)
     {
-        $body = $msg->body;
+        $body = $msg->getBody();
+        $routing_key = $msg->getRoutingKey();
         $response = json_decode($body, true);
 
         // fetch the EntityManager
         $entityManager = $this->entityManager;
 
         // Split the routing_key into its separate parts
-        $routing_key_arr = explode('.', $response['routing_key']);
+        $routing_key_arr = explode('.', $routing_key);
 
         // Create a new instance of the Metric entity and populates its fields
         $metric = new Metric();
